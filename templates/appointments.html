@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Clean Blog - Start Bootstrap Theme</title>
+    <title>Gabriel and David's Carwash</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static',filename='bootstrap.min.css')}}" rel="stylesheet">
@@ -29,7 +29,8 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand" href="{{url_for('index')}}">Start A Reservation</a>
+        <a class="navbar-brand" href="{{url_for('booking',user_id = user.id)}}">Hello {{ user.name }}! Start A
+            Reservation</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -39,16 +40,21 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('index')}}">Home</a>
+                    <a class="nav-link" href="{{url_for('home',user_id=user.id)}}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('about')}}">About</a>
+                    <a class="nav-link" href="{{ url_for('history',user_id=user.id) }}">Appointments</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('login')}}">Reservation</a>
+                    <a class="nav-link" href="{{url_for('booking',user_id = user.id)}}">Reservation</a>
+                </li>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('sign')}}">Sign</a>
+                    <a class="nav-link" href="{{ url_for('account',user_id=user.id) }}">Account</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('index') }}">Log out</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -61,8 +67,8 @@
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
                 <div class="page-heading">
-                    <h1>login</h1>
-                    <span class="subheading">You can login here.</span>
+                    <h1>Appointments</h1>
+                    <span class="subheading">You can edit your appointments here.</span>
                 </div>
             </div>
         </div>
@@ -73,38 +79,28 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-            <form name="addUser" id="addUser" method="POST" action="{{  url_for('log') }}" novalidate>
-                <div class="control-group">
-                    <div class="form-group floating-label-form-group controls">
-                        <label>E-mail</label>
-                        <input type="string" class="form-control" placeholder="mail" name="mail" id="mail" required
-                               data-validation-required-message="Please enter your e-mail address.">
-                        <p class="help-block text-danger"></p>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="form-group floating-label-form-group controls">
-                        <label>Password</label>
-                        <input type="string" class="form-control" placeholder="password" name="password" id="password"
-                               required data-validation-required-message="Please enter your password.">
-                        <p class="help-block text-danger"></p>
-                    </div>
-                </div>
-                <br>
-                <div id="success"></div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary" id="sendMessageButton">login</button>
-                </div>
-                <div>
-                    {% for message in get_flashed_messages() %}
-                    {{ message }}
-                    {% endfor%}
-                </div>
-            </form>
+            <h2>Appointments details</h2>
+            {% for appointment in appointments %}
+            <div class="post-preview">
+                <h3 class="post-title">
+                    {{appointment.options}}
+                </h3>
+                <h4 class="post-subtitle">
+                    {{appointment.car_type}}
+                </h4>
+                </a>
+                <p class="post-meta">Appointment address: {{ appointment.address}}</p>
+                <p class="post-meta">Special requirement: {{ appointment.requirement}}</p>
+                <p class="post-meta">Appointment time: {{ appointment.apt_time}}</p>
+                <a href="{{ url_for('delete',apt_id=appointment.id) }}">Delete</a>
+                <a href="{{ url_for('rebook',apt_id=appointment.id) }}">Rebook</a>
+            </div>
+            <hr>
+            {% endfor %}
+
         </div>
     </div>
 </div>
-
 <hr>
 
 <!-- Footer -->

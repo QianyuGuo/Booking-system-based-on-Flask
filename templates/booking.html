@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Clean Blog - Start Bootstrap Theme</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="{{ url_for('static', filename='font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet'
+          type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+          rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='clean-blog.min.css') }}" rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url_for('booking',user_id = user.id) }}">Hello {{ user.name }}! Start A
+            Reservation</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation">
+            Menu
+            <i class="fa fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('home',user_id=user.id) }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('about') }}">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('booking',user_id = user.id) }}">Reservation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('account',user_id=user.id) }}">Account</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('index') }}">Log out</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Page Header -->
+<header class="masthead" style="background-image: url('{{ url_for('static', filename='contact-bg.jpg') }}')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="page-heading">
+                    <h1>Reservation</h1>
+                    <span class="subheading">Create reservation here.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <form name="addForm" id="addForm" method="POST" action="{{ url_for('reservation',user_id=user.id) }}"
+                  novalidate>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <label>Car Type</label>
+                        <select id="car_tpye" onchange="car()" class="btn btn-default btn-xs dropdown-toggle">
+                            <option>Select car type</option>
+                            <option value="1042015:tagCategory_002">Hatchback</option>
+                            <option value="1042015:tagCategory_005">Sedan</option>
+                            <option value="1042015:tagCategory_001">SUV</option>
+                        </select>
+                        {# <input type="hidden" value="" name="adsense" id="adsense"/>#}
+                        <input type="hidden" class="form-control" placeholder="cartype" name="cartype" id="cartype" required data-validation-required-message="Please enter a title.">
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <label>Appointment Time</label>
+                        <select id="apt_time" onchange="apt()" class="btn btn-default btn-xs dropdown-toggle">
+                            <option>Select appointment time</option>
+                            <option value="1042015:tagCategory_001">8:00</option>
+                            <option value="1042015:tagCategory_002">9:00</option>
+                            <option value="1042015:tagCategory_005">10:00</option>
+                        </select>
+                        <input type="hidden" class="form-control" placeholder="apttime" name="apttime" id="apttime"
+                               required data-validation-required-message="Please enter your email address.">
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+
+                        <label>Options</label>
+                        <select id="options" onchange="option()" class="btn btn-default btn-xs dropdown-toggle">
+                            <option>Select options</option>
+                            <option value="1042015:tagCategory_001">wash outside $15</option>
+                            <option value="1042015:tagCategory_002">wash inside and outside $25</option>
+                            <option value="1042015:tagCategory_005">deluxe wash $30</option>
+                        </select>
+                        <input type="hidden" class="form-control" placeholder="sel_option" name="sel_option"
+                               id="sel_option" required
+                               data-validation-required-message="Please enter your phone number.">
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <label>Appointment address</label>
+                        <textarea rows="5" class="form-control" placeholder="{{ user.address }}" name="address"
+                                  id="address" required
+                                  data-validation-required-message="Please enter the address."></textarea>
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <label>Special requirements</label>
+                        <textarea rows="5" class="form-control" placeholder="Special requirements" name="content"
+                                  id="content" required
+                                  data-validation-required-message="Please enter a message."></textarea>
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <br>
+                <div id="success"></div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-secondary" id="sendMessageButton">Booking</button>
+                </div>
+                <div>
+                    {% for message in get_flashed_messages() %}
+                    {{ message }}
+                    {% endfor%}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<hr>
+<script type="text/javascript">
+        function car(){
+            $("#cartype").val($("#car_tpye option:selected").text());
+        }
+        function apt(){
+            $("#apttime").val($("#apt_time option:selected").text());
+        }
+        function option(){
+            $("#sel_option").val($("#options option:selected").text());
+        }
+
+</script>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <p class="copyright text-muted">Copyright &copy; Your Website 2017</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap core JavaScript -->
+<script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='popper.min.js') }}"></script>
+<script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+
+<!-- Custom scripts for this template -->
+<script src="{{ url_for('static', filename='clean-blog.min.js') }}"></script>
+
+</body>
+
+</html>
