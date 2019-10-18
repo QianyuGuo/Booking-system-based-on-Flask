@@ -44,9 +44,6 @@
                     <a class="nav-link" href="{{ url_for('home',user_id=user.id) }}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('about') }}">About</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('booking',user_id = user.id) }}">Reservation</a>
                 </li>
                 <li class="nav-item">
@@ -78,6 +75,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
+
             <form name="addForm" id="addForm" method="POST" action="{{ url_for('reservation',user_id=user.id) }}"
                   novalidate>
                 <div class="control-group">
@@ -85,9 +83,9 @@
                         <label>Car Type</label>
                         <select id="car_tpye" onchange="car()" class="btn btn-default btn-xs dropdown-toggle">
                             <option>Select car type</option>
-                            <option value="1042015:tagCategory_002">Hatchback</option>
-                            <option value="1042015:tagCategory_005">Sedan</option>
-                            <option value="1042015:tagCategory_001">SUV</option>
+                            <option>Hatchback</option>
+                            <option>Sedan</option>
+                            <option>SUV</option>
                         </select>
                         {# <input type="hidden" value="" name="adsense" id="adsense"/>#}
                         <input type="hidden" class="form-control" placeholder="cartype" name="cartype" id="cartype" required data-validation-required-message="Please enter a title.">
@@ -97,11 +95,11 @@
                 <div class="control-group">
                     <div class="form-group floating-label-form-group controls">
                         <label>Appointment Time</label>
-                        <select id="apt_time" onchange="apt()" class="btn btn-default btn-xs dropdown-toggle">
+                        <select id="apt_time" name="apt_time" onchange="apt()" class="btn btn-default btn-xs dropdown-toggle">
                             <option>Select appointment time</option>
-                            <option value="1042015:tagCategory_001">8:00</option>
-                            <option value="1042015:tagCategory_002">9:00</option>
-                            <option value="1042015:tagCategory_005">10:00</option>
+                            {% for time in apt_times %}
+                                <option value="{{ time.id }}">{{ time.times }}</option>
+                            {% endfor %}
                         </select>
                         <input type="hidden" class="form-control" placeholder="apttime" name="apttime" id="apttime"
                                required data-validation-required-message="Please enter your email address.">
@@ -114,9 +112,9 @@
                         <label>Options</label>
                         <select id="options" onchange="option()" class="btn btn-default btn-xs dropdown-toggle">
                             <option>Select options</option>
-                            <option value="1042015:tagCategory_001">wash outside $15</option>
-                            <option value="1042015:tagCategory_002">wash inside and outside $25</option>
-                            <option value="1042015:tagCategory_005">deluxe wash $30</option>
+                            <option>wash outside $15</option>
+                            <option>wash inside and outside $25</option>
+                            <option>deluxe wash $30</option>
                         </select>
                         <input type="hidden" class="form-control" placeholder="sel_option" name="sel_option"
                                id="sel_option" required
